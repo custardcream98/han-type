@@ -86,9 +86,6 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
-      sample-react-package:
-        specifier: workspace:*
-        version: link:../../packages/sample-react-package
     devDependencies:
       '@types/react':
         specifier: ^18
