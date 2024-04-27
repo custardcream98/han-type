@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix --cache"
+    "lint": "eslint --fix --cache",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^14.2.3",

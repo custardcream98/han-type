@@ -3,7 +3,7 @@
   "scripts": {
     "format": "prettier --write .",
     "prepare": "husky",
-    "type-check": "tsc --noEmit",
+    "type-check": "pnpm --filter \"./{packages,apps}/**\" type-check",
     "start:web": "pnpm --filter web dev",
     "build": "rm -rf packages/*/dist && rollup -c --bundleConfigAsCjs",
     "build:watch": "pnpm build --watch"
