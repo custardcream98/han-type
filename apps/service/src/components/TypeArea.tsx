@@ -1,9 +1,11 @@
 "use client"
 
+import { useToast } from "./Toast"
+
 import clsx from "clsx"
 import React, { useMemo, useState } from "react"
 
-const ENGLISH_REGEX = /^[a-zA-Z\s]*$/
+const ENGLISH_REGEX = /[a-zA-Z]/
 
 export const TypeArea = React.forwardRef(function TypeAreaForward(
   {
@@ -35,6 +37,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
     })
   }, [typedValueList, charList])
 
+  const { errorToast } = useToast()
+
   return (
     <div className='relative text-3xl leading-normal tracking-widest'>
       <textarea
@@ -51,6 +55,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           const value = event.target.value
 
           if (ENGLISH_REGEX.test(value) && value !== "") {
+            errorToast("한글을 입력해주세요.")
             return
           }
 
