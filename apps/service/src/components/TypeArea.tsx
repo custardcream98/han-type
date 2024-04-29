@@ -1,5 +1,6 @@
 "use client"
 
+import { useTypingStatus } from "./Title"
 import { useToast } from "./Toast"
 
 import { isWritingKoreanLetter } from "@/utils/isWritingKoreanLetter"
@@ -22,6 +23,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   },
   ref: React.Ref<HTMLTextAreaElement>
 ) {
+  const { setIsTyping } = useTypingStatus()
+
   const charList = useMemo(() => text.split(""), [text])
 
   const [typedValueList, setTypedValueList] = useState<string[]>([])
@@ -46,7 +49,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   const { errorToast } = useToast()
 
   return (
-    <div className='relative text-3xl leading-normal tracking-widest'>
+    <div className='relative text-2xl leading-normal tracking-widest md:text-3xl md:leading-normal'>
       <textarea
         ref={ref}
         autoCapitalize='none'
@@ -59,6 +62,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         disabled={disabled}
         onChange={(event) => {
           const value = event.target.value
+
+          setIsTyping(true)
 
           if (ENGLISH_REGEX.test(value) && value !== "") {
             errorToast("한글을 입력해주세요.")
