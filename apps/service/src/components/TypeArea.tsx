@@ -2,6 +2,7 @@
 
 import { useToast } from "./Toast"
 
+import { isWritingKoreanLetter } from "@/utils/isWritingKoreanLetter"
 import clsx from "clsx"
 import React, { useMemo, useState } from "react"
 
@@ -31,7 +32,12 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
 
       return {
         char,
-        isCorrect: typedChar === char,
+        isCorrect: isWritingKoreanLetter({
+          nextTypedValue: typedValueList[index + 1],
+          nextValue: charList[index + 1],
+          targetValue: char,
+          value: typedChar ?? ""
+        }),
         typedChar
       }
     })
