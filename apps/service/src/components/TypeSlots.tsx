@@ -20,65 +20,46 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
     []
   )
 
-  const [translation, setTranslation] = useState(0)
+  return quotes.map((quote, index) => (
+    <div
+      key={`${quote}${index}`}
+      className='fixed bottom-0 left-0 right-0 top-0 flex content-center items-center px-8 transition-transform duration-700'
+      style={{
+        transform: `translateY(calc(${focusedIndex - index} * -100vh))`
+      }}
+    >
+      <div className='mx-auto max-w-4xl'>
+        <TypeArea
+          ref={(element) => {
+            typeAreaRefList.current[index] = element
+          }}
+          disabled={index !== focusedIndex}
+          autoFocus={index === 0}
+          onComplete={() => {
+            const nextElement = typeAreaRefList.current[index + 1]
 
-  return (
-    <div className='max-h-screen overflow-hidden'>
-      <div
-        className='flex flex-col gap-[50vh] transition-transform'
-        style={{
-          transform: `translateY(calc(-${focusedIndex * 50}vh - ${translation}px))`
-        }}
-      >
-        <div></div>
-        {quotes.map((quote, index) => (
-          <div
-            key={`${quote}${index}`}
-            className={index === 0 ? "-translate-y-1/2" : "-translate-y-full"}
-          >
-            <TypeArea
-              ref={(element) => {
-                typeAreaRefList.current[index] = element
-              }}
-              disabled={index !== focusedIndex}
-              autoFocus={index === 0}
-              onComplete={() => {
-                const typeAreaElement = typeAreaRefList.current[index]
+            if (nextElement) {
+              setFocusedIndex((prev) => prev + 1)
 
-                if (!typeAreaElement) {
-                  return
+              setTimeout(() => {
+                const focus = () => {
+                  const isDisabled = nextElement.getAttribute("disabled")
+
+                  if (!isDisabled) {
+                    nextElement.focus()
+                    return
+                  }
+
+                  frameRef.current = requestAnimationFrame(focus)
                 }
 
-                const height = typeAreaElement.clientHeight
-
-                setTranslation((prev) => prev + height)
-
-                const nextElement = typeAreaRefList.current[index + 1]
-
-                if (nextElement) {
-                  setFocusedIndex((prev) => prev + 1)
-
-                  setTimeout(() => {
-                    const focus = () => {
-                      const isDisabled = nextElement.getAttribute("disabled")
-
-                      if (!isDisabled) {
-                        nextElement.focus()
-                        return
-                      }
-
-                      frameRef.current = requestAnimationFrame(focus)
-                    }
-
-                    frameRef.current = requestAnimationFrame(focus)
-                  }, 150)
-                }
-              }}
-              text={quote}
-            />
-          </div>
-        ))}
+                frameRef.current = requestAnimationFrame(focus)
+              }, 150)
+            }
+          }}
+          text={quote}
+        />
       </div>
     </div>
-  )
+  ))
 }

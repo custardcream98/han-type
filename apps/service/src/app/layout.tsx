@@ -22,7 +22,7 @@ export default function RootLayout({
           <ToastRoot>
             <div className='mx-auto flex max-w-4xl grow flex-col px-8'>
               <TypingStatusProvider>
-                <header className='fixed left-0 right-0 top-0 mx-auto mt-[30vh] max-w-4xl px-8'>
+                <header className='fixed left-0 right-0 top-0 mx-auto mt-[30vh] max-w-4xl'>
                   <Title />
                 </header>
                 <div className='grow'>{children}</div>
