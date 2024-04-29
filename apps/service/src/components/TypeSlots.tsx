@@ -20,27 +20,6 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
     []
   )
 
-  useEffect(() => {
-    let frame: number
-    const focusFirstElement = () => {
-      const firstElement = typeAreaRefList.current[0]
-
-      if (firstElement) {
-        firstElement.focus()
-        cancelAnimationFrame(frame)
-        return
-      }
-
-      frame = requestAnimationFrame(focusFirstElement)
-    }
-
-    frame = requestAnimationFrame(focusFirstElement)
-
-    return () => {
-      cancelAnimationFrame(frame)
-    }
-  }, [])
-
   const [translation, setTranslation] = useState(0)
 
   return (
@@ -58,6 +37,7 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
               typeAreaRefList.current[index] = element
             }}
             disabled={index !== focusedIndex}
+            autoFocus={index === 0}
             onComplete={() => {
               const typeAreaElement = typeAreaRefList.current[index]
 
