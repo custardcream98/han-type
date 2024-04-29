@@ -4,7 +4,11 @@ import clsx from "clsx"
 import React, { useMemo, useState } from "react"
 
 export const TypeArea = React.forwardRef(function TypeAreaForward(
-  { text }: { text: string },
+  {
+    text,
+    disabled,
+    onComplete
+  }: { text: string; disabled?: boolean; onComplete?: () => void },
   ref: React.Ref<HTMLTextAreaElement>
 ) {
   const charList = useMemo(() => text.split(""), [text])
@@ -32,12 +36,17 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         autoCorrect='off'
         spellCheck='false'
         className='absolute inset-0 resize-none overflow-hidden bg-transparent text-transparent caret-slate-300 selection:bg-orange-100 selection:bg-opacity-30 focus:border-none focus:outline-none'
+        disabled={disabled}
         onChange={(event) => {
           const value = event.target.value
 
           const typedValueList = value.split("")
 
           setTypedValueList(typedValueList)
+
+          if (typedValueList.length === charList.length) {
+            onComplete?.()
+          }
         }}
         value={typedValueList.join("")}
       />
