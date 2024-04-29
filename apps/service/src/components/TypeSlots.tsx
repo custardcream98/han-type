@@ -9,13 +9,16 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
     new Array(quotes.length).fill(null)
   )
   const [focusedIndex, setFocusedIndex] = useState(0)
-  useEffect(() => {
-    const elementToFocus = typeAreaRefList.current[focusedIndex]
 
-    if (elementToFocus) {
-      elementToFocus.focus()
-    }
-  }, [focusedIndex])
+  const frameRef = useRef<number | null>(null)
+  useEffect(
+    () => () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current)
+      }
+    },
+    []
+  )
 
   useEffect(() => {
     let frame: number
@@ -31,7 +34,11 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
       frame = requestAnimationFrame(focusFirstElement)
     }
 
-    requestAnimationFrame(focusFirstElement)
+    frame = requestAnimationFrame(focusFirstElement)
+
+    return () => {
+      cancelAnimationFrame(frame)
+    }
   }, [])
 
   const [translation, setTranslation] = useState(0)
@@ -66,6 +73,19 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
 
               if (nextElement) {
                 setFocusedIndex((prev) => prev + 1)
+
+                const focus = () => {
+                  const isDisabled = nextElement.getAttribute("disabled")
+
+                  if (!isDisabled) {
+                    nextElement.focus()
+                    return
+                  }
+
+                  frameRef.current = requestAnimationFrame(focus)
+                }
+
+                frameRef.current = requestAnimationFrame(focus)
               }
             }}
             text={quote}
