@@ -1,9 +1,12 @@
 "use client"
 
 import clsx from "clsx"
-import { useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 
-export const TypeArea = ({ text }: { text: string }) => {
+export const TypeArea = React.forwardRef(function TypeAreaForward(
+  { text }: { text: string },
+  ref: React.Ref<HTMLTextAreaElement>
+) {
   const charList = useMemo(() => text.split(""), [text])
 
   const [typedValueList, setTypedValueList] = useState<string[]>([])
@@ -23,6 +26,7 @@ export const TypeArea = ({ text }: { text: string }) => {
   return (
     <div className='relative text-3xl leading-normal tracking-widest'>
       <textarea
+        ref={ref}
         autoCapitalize='none'
         autoComplete='off'
         autoCorrect='off'
@@ -55,4 +59,4 @@ export const TypeArea = ({ text }: { text: string }) => {
       </p>
     </div>
   )
-}
+})
