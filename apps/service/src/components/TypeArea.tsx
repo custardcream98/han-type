@@ -3,6 +3,8 @@
 import clsx from "clsx"
 import React, { useMemo, useState } from "react"
 
+const ENGLISH_REGEX = /^[a-zA-Z\s]*$/
+
 export const TypeArea = React.forwardRef(function TypeAreaForward(
   {
     text,
@@ -41,11 +43,16 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         autoComplete='off'
         autoCorrect='off'
         spellCheck='false'
+        autoSave='off'
         autoFocus={autoFocus}
         className='absolute inset-0 resize-none overflow-hidden bg-transparent text-transparent caret-slate-300 selection:bg-orange-100 selection:bg-opacity-30 focus:border-none focus:outline-none'
         disabled={disabled}
         onChange={(event) => {
           const value = event.target.value
+
+          if (ENGLISH_REGEX.test(value) && value !== "") {
+            return
+          }
 
           const typedValueList = value.split("")
 
