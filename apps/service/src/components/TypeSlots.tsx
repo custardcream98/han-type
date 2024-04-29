@@ -1,5 +1,6 @@
 "use client"
 
+import { Status, StatusProvider } from "./Status"
 import { TypeArea } from "./TypeArea"
 
 import { useEffect, useRef, useState } from "react"
@@ -29,36 +30,39 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
       }}
     >
       <div className='mx-auto max-w-4xl'>
-        <TypeArea
-          ref={(element) => {
-            typeAreaRefList.current[index] = element
-          }}
-          disabled={index !== focusedIndex}
-          autoFocus={index === 0}
-          onComplete={() => {
-            const nextElement = typeAreaRefList.current[index + 1]
+        <StatusProvider>
+          <Status />
+          <TypeArea
+            ref={(element) => {
+              typeAreaRefList.current[index] = element
+            }}
+            disabled={index !== focusedIndex}
+            autoFocus={index === 0}
+            onComplete={() => {
+              const nextElement = typeAreaRefList.current[index + 1]
 
-            if (nextElement) {
-              setFocusedIndex((prev) => prev + 1)
+              if (nextElement) {
+                setFocusedIndex((prev) => prev + 1)
 
-              setTimeout(() => {
-                const focus = () => {
-                  const isDisabled = nextElement.getAttribute("disabled")
+                setTimeout(() => {
+                  const focus = () => {
+                    const isDisabled = nextElement.getAttribute("disabled")
 
-                  if (!isDisabled) {
-                    nextElement.focus()
-                    return
+                    if (!isDisabled) {
+                      nextElement.focus()
+                      return
+                    }
+
+                    frameRef.current = requestAnimationFrame(focus)
                   }
 
                   frameRef.current = requestAnimationFrame(focus)
-                }
-
-                frameRef.current = requestAnimationFrame(focus)
-              }, 150)
-            }
-          }}
-          text={quote}
-        />
+                }, 150)
+              }
+            }}
+            text={quote}
+          />
+        </StatusProvider>
       </div>
     </div>
   ))

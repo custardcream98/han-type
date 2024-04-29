@@ -1,5 +1,6 @@
 "use client"
 
+import { useTypeStatus } from "./Status"
 import { useTypingStatus } from "./Title"
 import { useToast } from "./Toast"
 
@@ -24,6 +25,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   ref: React.Ref<HTMLTextAreaElement>
 ) {
   const { setIsTyping } = useTypingStatus()
+  const { setData } = useTypeStatus()
 
   const charList = useMemo(() => text.split(""), [text])
 
@@ -73,6 +75,11 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           const typedValueList = value.split("")
 
           setTypedValueList(typedValueList)
+
+          setData({
+            targetValue: text,
+            typedValue: value
+          })
 
           if (typedValueList.length === charList.length) {
             onComplete?.()
