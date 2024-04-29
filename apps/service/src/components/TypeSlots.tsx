@@ -32,7 +32,7 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
       >
         {quotes.map((quote, index) => (
           <TypeArea
-            key={quote}
+            key={`${quote}${index}`}
             ref={(element) => {
               typeAreaRefList.current[index] = element
             }}
