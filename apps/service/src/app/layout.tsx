@@ -17,9 +17,9 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={pretendard.className}>
-        <main className='flex min-h-screen flex-col items-center justify-between pb-8'>
+        <main className='flex min-h-screen flex-col items-center justify-between'>
           <ToastRoot>
-            <div className='mx-auto flex min-w-96 max-w-4xl grow flex-col px-8 pt-20'>
+            <div className='mx-auto flex min-w-96 max-w-4xl grow flex-col px-8'>
               <header className='sr-only'>
                 <h1>한타입</h1>
               </header>
