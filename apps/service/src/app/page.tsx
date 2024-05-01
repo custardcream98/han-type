@@ -19,8 +19,10 @@ export default function Home() {
   return (
     <div className='flex flex-col items-center'>
       <TypingStatusProvider>
-        <header className='fixed left-0 right-0 top-0 mx-auto mt-[30vh] max-w-4xl'>
-          <Title />
+        <header className='fixed left-0 right-0 top-0 mt-[30vh]  px-8'>
+          <div className='mx-auto max-w-4xl'>
+            <Title />
+          </div>
         </header>
         <TypeSlots quotes={shortTexts} />
         <GitHubLink />
