@@ -1,5 +1,8 @@
+import { useTypingStatus } from "./TypingStatusProvider"
+
 import { ResolvedChar } from "@/types/char"
 import { isWritingKoreanLetter } from "@/utils/isWritingKoreanLetter"
+import clsx from "clsx"
 import React, { useCallback, useEffect, useRef } from "react"
 
 const RecordContext = React.createContext<{
@@ -82,7 +85,7 @@ export const RecordProvider = ({
       return
     }
 
-    const interval = setInterval(() => {
+    const interval = window.setInterval(() => {
       const totalTime = Date.now() - startTime
 
       const wordsPerMinute = currentWords.length / (totalTime / 1000 / 60)
@@ -120,6 +123,7 @@ export const useRecord = () => {
 }
 
 export const Record = ({ target }: { target: string }) => {
+  const { isTyping } = useTypingStatus()
   const { wordsPerMinute, accuracy, typedCharsCount } = useRecord()
 
   const data = [
@@ -129,7 +133,12 @@ export const Record = ({ target }: { target: string }) => {
   ]
 
   return (
-    <p className='text-amber-50 opacity-20'>
+    <p
+      className={clsx(
+        "text-amber-50 transition-opacity duration-700",
+        isTyping ? "opacity-20" : "opacity-0"
+      )}
+    >
       {data.map((children) => (
         <span key={children} className='inline-block w-20'>
           {children}
