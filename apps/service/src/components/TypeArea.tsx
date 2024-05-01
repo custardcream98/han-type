@@ -1,8 +1,8 @@
 "use client"
 
 import { useTypeStatus } from "./Status"
-import { useTypingStatus } from "./Title"
 import { useToast } from "./Toast"
+import { useTypingStatus } from "./TypingStatusProvider"
 
 import { isWritingKoreanLetter } from "@/utils/isWritingKoreanLetter"
 import clsx from "clsx"
@@ -24,7 +24,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   },
   ref: React.Ref<HTMLTextAreaElement>
 ) {
-  const { setIsTyping } = useTypingStatus()
+  const { typing } = useTypingStatus()
   const { setData } = useTypeStatus()
 
   const charList = useMemo(() => text.split(""), [text])
@@ -65,7 +65,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         onChange={(event) => {
           const value = event.target.value
 
-          setIsTyping(true)
+          typing(true)
 
           if (ENGLISH_REGEX.test(value) && value !== "") {
             errorToast("한글을 입력해주세요.")

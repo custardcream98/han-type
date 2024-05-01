@@ -1,8 +1,9 @@
 import "./globals.css"
 
 import { pretendard } from "@/assets/fonts"
-import { GitHubLink, Title, TypingStatusProvider } from "@/components/Title"
+import { GitHubLink, Title } from "@/components/Title"
 import { ToastRoot } from "@/components/Toast"
+import { TypingStatusProvider } from "@/components/TypingStatusProvider"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
