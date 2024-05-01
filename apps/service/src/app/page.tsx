@@ -1,4 +1,6 @@
+import { GitHubLink, Title } from "@/components/Title"
 import { TypeSlots } from "@/components/TypeSlots"
+import { TypingStatusProvider } from "@/components/TypingStatusProvider"
 
 const shortTexts = [
   "눈부신 햇살이 아름다운 날. 바람은 가볍게 불고, 모든 것이 평화롭다. 그런데 갑자기 엄청난 폭풍우가 닥친다!",
@@ -14,5 +16,15 @@ const shortTexts = [
 ]
 
 export default function Home() {
-  return <TypeSlots quotes={shortTexts} />
+  return (
+    <div className='flex flex-col items-center'>
+      <TypingStatusProvider>
+        <header className='fixed left-0 right-0 top-0 mx-auto mt-[30vh] max-w-4xl'>
+          <Title />
+        </header>
+        <TypeSlots quotes={shortTexts} />
+        <GitHubLink />
+      </TypingStatusProvider>
+    </div>
+  )
 }
