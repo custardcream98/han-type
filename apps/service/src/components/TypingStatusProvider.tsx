@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react"
 
 const TypingStatusContext = React.createContext<{
   isTyping: boolean
-  typing: React.Dispatch<React.SetStateAction<boolean>>
+  typing: () => void
 } | null>(null)
 
 export const TypingStatusProvider = ({

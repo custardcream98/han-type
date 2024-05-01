@@ -7,11 +7,11 @@ export const isWritingKoreanLetter = ({
   nextTypedValue
 }: {
   targetValue: string
-  value: string
+  value?: string
   nextValue?: string
   nextTypedValue?: string
 }) => {
-  if (value === targetValue) {
+  if (typeof value === "undefined" || value === targetValue) {
     return true
   }
 

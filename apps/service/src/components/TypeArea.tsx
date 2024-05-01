@@ -1,12 +1,11 @@
 "use client"
 
-import { useTypeStatus } from "./Status"
+import { useRecord } from "./Record"
 import { useToast } from "./Toast"
 import { useTypingStatus } from "./TypingStatusProvider"
 
-import { isWritingKoreanLetter } from "@/utils/isWritingKoreanLetter"
 import clsx from "clsx"
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 
 const ENGLISH_REGEX = /[a-zA-Z]/
 
@@ -25,28 +24,9 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   ref: React.Ref<HTMLTextAreaElement>
 ) {
   const { typing } = useTypingStatus()
-  const { setData } = useTypeStatus()
+  const { updateRecord, resolvedCharList } = useRecord()
 
-  const charList = useMemo(() => text.split(""), [text])
-
-  const [typedValueList, setTypedValueList] = useState<string[]>([])
-
-  const resolvedCharList = useMemo(() => {
-    return charList.map((char, index) => {
-      const typedChar = typedValueList[index]
-
-      return {
-        char,
-        isCorrect: isWritingKoreanLetter({
-          nextTypedValue: typedValueList[index + 1],
-          nextValue: charList[index + 1],
-          targetValue: char,
-          value: typedChar ?? ""
-        }),
-        typedChar
-      }
-    })
-  }, [typedValueList, charList])
+  const [typedValue, setTypedValue] = useState<string>("")
 
   const { errorToast } = useToast()
 
@@ -63,29 +43,23 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         className='absolute inset-0 resize-none overflow-hidden bg-transparent text-transparent caret-slate-300 selection:bg-orange-100 selection:bg-opacity-30 focus:border-none focus:outline-none'
         disabled={disabled}
         onChange={(event) => {
-          const value = event.target.value
+          const value = event.currentTarget.value
 
-          typing(true)
+          typing()
 
           if (ENGLISH_REGEX.test(value) && value !== "") {
             errorToast("한글을 입력해주세요.")
             return
           }
 
-          const typedValueList = value.split("")
+          setTypedValue(value)
+          updateRecord(value)
 
-          setTypedValueList(typedValueList)
-
-          setData({
-            targetValue: text,
-            typedValue: value
-          })
-
-          if (typedValueList.length === charList.length) {
+          if (value.length === text.length) {
             onComplete?.()
           }
         }}
-        value={typedValueList.join("")}
+        value={typedValue}
       />
       <p>
         {resolvedCharList.map(({ char, typedChar, isCorrect }, index) => (

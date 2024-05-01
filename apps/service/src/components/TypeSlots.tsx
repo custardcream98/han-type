@@ -1,6 +1,6 @@
 "use client"
 
-import { Status, StatusProvider } from "./Status"
+import { Record, RecordProvider } from "./Record"
 import { TypeArea } from "./TypeArea"
 
 import { useEffect, useRef, useState } from "react"
@@ -30,8 +30,8 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
       }}
     >
       <div className='mx-auto max-w-4xl'>
-        <StatusProvider>
-          <Status />
+        <RecordProvider target={quote}>
+          <Record target={quote} />
           <TypeArea
             ref={(element) => {
               typeAreaRefList.current[index] = element
@@ -62,7 +62,7 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
             }}
             text={quote}
           />
-        </StatusProvider>
+        </RecordProvider>
       </div>
     </div>
   ))
