@@ -6,7 +6,7 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
   description: "한국어 타자 연습",
-  title: "HanType"
+  title: "한,타자"
 }
 
 export default function RootLayout({
