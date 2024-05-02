@@ -14,12 +14,16 @@ export const GitHubLink = () => {
       rel='noopener noreferrer'
       href='https://github.com/custardcream98/han-type'
       className={clsx(
-        "absolute bottom-32 transition-opacity duration-700",
-        !isTyping ? "opacity-70" : "opacity-0"
+        "absolute bottom-4 right-4 flex items-center gap-1 text-sm transition-opacity duration-700 md:text-lg",
+        !isTyping ? "opacity-10" : "opacity-0"
       )}
     >
-      <GitHubLogo className='fill-neutral-200' width={25} height={25} />
-      <span className='sr-only'>GitHub Link</span>
+      <GitHubLogo
+        className='h-5 w-5 fill-neutral-200 md:h-6 md:w-6'
+        width={24}
+        height={24}
+      />
+      <span>shiwoo.park</span>
     </a>
   )
 }
