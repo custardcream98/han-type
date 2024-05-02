@@ -17,16 +17,14 @@ const shortTexts = [
 
 export default function Home() {
   return (
-    <div className='flex flex-col items-center'>
-      <TypingStatusProvider>
-        <header className='fixed left-0 right-0 top-0 mt-[30vh]  px-8'>
-          <div className='mx-auto max-w-4xl'>
-            <Title />
-          </div>
-        </header>
-        <TypeSlots quotes={shortTexts} />
-        <GitHubLink />
-      </TypingStatusProvider>
-    </div>
+    <TypingStatusProvider>
+      <header className='relative z-10 mt-[25vh] w-full px-8'>
+        <div className='mx-auto max-w-4xl'>
+          <Title />
+        </div>
+      </header>
+      <TypeSlots quotes={shortTexts} />
+      <GitHubLink />
+    </TypingStatusProvider>
   )
 }

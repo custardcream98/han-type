@@ -31,7 +31,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   const { errorToast } = useToast()
 
   return (
-    <div className='relative text-2xl leading-normal tracking-widest md:text-3xl md:leading-normal'>
+    <div className='relative text-xl leading-normal tracking-widest sm:text-2xl md:text-3xl md:leading-normal'>
       <textarea
         ref={ref}
         autoCapitalize='none'
