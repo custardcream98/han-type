@@ -19,7 +19,7 @@ const shortTexts = [
 export default function Home() {
   return (
     <TypingStatusProvider>
-      <header className='relative z-10 mt-[25vh] w-full px-8'>
+      <header className='relative z-10 mt-[15vh] w-full px-8 sm:mt-[25vh]'>
         <div className='mx-auto max-w-4xl'>
           <Title />
         </div>
