@@ -1,4 +1,5 @@
-import { GitHubLink, Title } from "@/components/Title"
+import { GitHubLink } from "@/components/GitHubLink"
+import { Title } from "@/components/Title"
 import { TypeSlots } from "@/components/TypeSlots"
 import { TypingStatusProvider } from "@/components/TypingStatusProvider"
 
