@@ -126,8 +126,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
             "clickable rounded-full hover:-rotate-[210deg]",
             wordsPerMinute
               ? isTyping
-                ? "opacity-100"
-                : "opacity-50"
+                ? "opacity-20"
+                : "opacity-100"
               : "opacity-0"
           )}
           onClick={reset}
