@@ -95,6 +95,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         onKeyDown={(event) => {
           if (event.key === "Enter" && isReadyToComplete) {
             onComplete?.()
+          } else if (event.key === "Escape" && typedValue) {
+            reset()
           }
         }}
         value={typedValue}
