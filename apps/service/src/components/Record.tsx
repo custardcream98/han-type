@@ -1,3 +1,4 @@
+import { useOptions } from "./OptionsProvider"
 import { useTypingStatus } from "./TypingStatusProvider"
 
 import { ResolvedChar } from "@/types/char"
@@ -145,6 +146,7 @@ export const useRecord = () => {
 }
 
 export const Record = ({ target }: { target: string }) => {
+  const { showRecord } = useOptions()
   const { isTyping } = useTypingStatus()
   const { wordsPerMinute, accuracy, typedCharsCount } = useRecord()
 
@@ -158,7 +160,7 @@ export const Record = ({ target }: { target: string }) => {
     <p
       className={clsx(
         "text-amber-50 transition-opacity duration-700",
-        isTyping ? "opacity-20" : "opacity-0"
+        isTyping && showRecord ? "opacity-20" : "opacity-0"
       )}
     >
       {data.map((children) => (

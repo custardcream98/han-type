@@ -1,4 +1,5 @@
 import { GitHubLink } from "@/components/GitHubLink"
+import { OptionsProvider, OptionsSelector } from "@/components/OptionsProvider"
 import { Title } from "@/components/Title"
 import { TypeSlots } from "@/components/TypeSlots"
 import { TypingStatusProvider } from "@/components/TypingStatusProvider"
@@ -20,12 +21,17 @@ const shortTexts = [
 export default function Home() {
   return (
     <TypingStatusProvider>
-      <header className='relative z-10 mt-[15vh] w-full px-8 sm:mt-[25vh]'>
-        <div className='mx-auto max-w-4xl'>
-          <Title />
+      <OptionsProvider>
+        <header className='relative z-10 mt-[15vh] w-full px-8 sm:mt-[25vh]'>
+          <div className='mx-auto max-w-4xl'>
+            <Title />
+          </div>
+        </header>
+        <div className='fixed right-0 top-0 z-10 p-4'>
+          <OptionsSelector />
         </div>
-      </header>
-      <TypeSlots isMacOS={isMacOS()} quotes={shortTexts} />
+        <TypeSlots isMacOS={isMacOS()} quotes={shortTexts} />
+      </OptionsProvider>
       <GitHubLink />
     </TypingStatusProvider>
   )
