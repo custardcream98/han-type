@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .clickable {
+    @apply transition-clickable duration-clickable p-2 hover:scale-110 hover:bg-[#2c2e1896] active:scale-90;
+  }
+}

@@ -3,7 +3,7 @@ import { useTypingStatus } from "./TypingStatusProvider"
 import { ResolvedChar } from "@/types/char"
 import { isWritingKoreanLetter } from "@/utils/isWritingKoreanLetter"
 import clsx from "clsx"
-import React, { useCallback, useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useMemo, useRef } from "react"
 
 const RecordContext = React.createContext<{
   wordsPerMinute: number
@@ -11,6 +11,7 @@ const RecordContext = React.createContext<{
   typedCharsCount: number
   resolvedCharList: ResolvedChar[]
   updateRecord: (value: string) => void
+  resetRecord: () => void
 } | null>(null)
 
 export const RecordProvider = ({
@@ -97,18 +98,39 @@ export const RecordProvider = ({
     }
   }, [currentWords.length, isEnded])
 
+  const resetRecord = useCallback(() => {
+    startedTimeRef.current = null
+
+    setWordsPerMinute(0)
+    setAccuracy(0)
+    setCurrentWords([])
+    setResolvedCharList(
+      target.split("").map((char) => ({ char, isCorrect: false }))
+    )
+    setIsEnded(false)
+  }, [target])
+
+  const value = useMemo(
+    () => ({
+      accuracy,
+      resetRecord,
+      resolvedCharList,
+      typedCharsCount: currentWords.join(" ").length,
+      updateRecord,
+      wordsPerMinute
+    }),
+    [
+      accuracy,
+      currentWords,
+      resetRecord,
+      resolvedCharList,
+      updateRecord,
+      wordsPerMinute
+    ]
+  )
+
   return (
-    <RecordContext.Provider
-      value={{
-        accuracy,
-        resolvedCharList,
-        typedCharsCount: currentWords.join(" ").length,
-        updateRecord,
-        wordsPerMinute
-      }}
-    >
-      {children}
-    </RecordContext.Provider>
+    <RecordContext.Provider value={value}>{children}</RecordContext.Provider>
   )
 }
 

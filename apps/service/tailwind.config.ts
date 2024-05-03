@@ -16,6 +16,13 @@ const config: Config = {
       colors: {
         background: "rgb(var(--background-rgb))",
         foreground: "rgb(var(--foreground-rgb))"
+      },
+      transitionDuration: {
+        clickable: "300ms"
+      },
+      transitionProperty: {
+        clickable:
+          "background-color, border-color, color, fill, stroke, transform, opacity"
       }
     },
     fontFamily: {
