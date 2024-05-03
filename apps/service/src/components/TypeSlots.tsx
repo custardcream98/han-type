@@ -5,7 +5,13 @@ import { TypeArea } from "./TypeArea"
 
 import { useEffect, useRef, useState } from "react"
 
-export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
+export const TypeSlots = ({
+  quotes,
+  isMacOS
+}: {
+  quotes: string[]
+  isMacOS: boolean
+}) => {
   const typeAreaRefList = useRef<(HTMLTextAreaElement | null)[]>(
     new Array(quotes.length).fill(null)
   )
@@ -60,6 +66,7 @@ export const TypeSlots = ({ quotes }: { quotes: string[] }) => {
                 }, 150)
               }
             }}
+            isMacOS={isMacOS}
             text={quote}
           />
         </RecordProvider>

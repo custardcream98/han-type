@@ -15,11 +15,13 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
     text,
     disabled,
     autoFocus,
+    isMacOS,
     onComplete
   }: {
     text: string
     disabled?: boolean
     autoFocus?: boolean
+    isMacOS?: boolean
     onComplete?: () => void
   },
   ref: React.Ref<HTMLTextAreaElement>
@@ -32,10 +34,13 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
 
   const [typedValue, setTypedValue] = useState<string>("")
 
+  const [isReadyToComplete, setIsReadyToComplete] = useState(false)
+
   const reset = () => {
     setTypedValue("")
     updateRecord("")
     resetRecord()
+    setIsReadyToComplete(false)
 
     const textareaElement = innerRef.current
 
@@ -67,6 +72,10 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         className='absolute inset-0 resize-none overflow-hidden bg-transparent text-transparent caret-slate-300 selection:bg-orange-100 selection:bg-opacity-30 focus:border-none focus:outline-none'
         disabled={disabled}
         onChange={(event) => {
+          if (isReadyToComplete) {
+            return
+          }
+
           const value = event.currentTarget.value
 
           typing()
@@ -80,6 +89,11 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           updateRecord(value)
 
           if (value.length === text.length) {
+            setIsReadyToComplete(true)
+          }
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" && isReadyToComplete) {
             onComplete?.()
           }
         }}
@@ -102,22 +116,41 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         ))}
       </p>
 
-      <button
-        type='button'
-        disabled={!typedValue}
-        className={clsx(
-          "clickable absolute right-0 mt-8 block rounded-full hover:-rotate-[210deg] md:mt-4",
-          wordsPerMinute
-            ? isTyping
-              ? "opacity-100"
-              : "opacity-50"
-            : "opacity-0"
-        )}
-        onClick={reset}
-      >
-        <RetryIcon className='h-4 w-4 md:h-6 md:w-6' />
-        <span className='sr-only'>다시 시작하기</span>
-      </button>
+      <div className='absolute right-0 mt-8 flex items-center gap-4'>
+        <button
+          type='button'
+          disabled={!typedValue}
+          className={clsx(
+            "clickable rounded-full hover:-rotate-[210deg]",
+            wordsPerMinute
+              ? isTyping
+                ? "opacity-100"
+                : "opacity-50"
+              : "opacity-0"
+          )}
+          onClick={reset}
+        >
+          <RetryIcon className='h-4 w-4 md:h-6 md:w-6' />
+          <span className='sr-only'>다시 시작하기</span>
+        </button>
+
+        <div
+          className={clsx(
+            "overflow-hidden transition-all duration-500 md:text-base",
+            isReadyToComplete
+              ? "max-w-28 opacity-100 md:max-w-24"
+              : "max-w-0 opacity-0"
+          )}
+        >
+          <button
+            type='button'
+            disabled={!isReadyToComplete}
+            className='font-code w-max rounded-md bg-zinc-800 px-2 py-1 text-sm tracking-wide md:text-base'
+          >
+            ⏎ {isMacOS ? "return" : "enter"}
+          </button>
+        </div>
+      </div>
     </div>
   )
 })

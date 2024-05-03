@@ -26,6 +26,17 @@ const config: Config = {
       }
     },
     fontFamily: {
+      code: [
+        "Fira Code VF",
+        "ui-monospace",
+        "SFMono-Regular",
+        "Menlo",
+        "Monaco",
+        "Consolas",
+        "Liberation Mono",
+        "Courier New",
+        "monospace"
+      ],
       sans: ["var(--font-pretendard)"]
     }
   }
