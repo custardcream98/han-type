@@ -1,6 +1,5 @@
 @tailwind base;
-@tailwind utilities;
-
+@import url(../styles/utilities.css);
 @import url(../styles/components.css);
 
 :root {
@@ -19,10 +18,4 @@
 body {
   color: rgb(var(--foreground-rgb));
   background-color: rgb(var(--background-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
 }
