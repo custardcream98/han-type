@@ -27,7 +27,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   const innerRef = useRef<HTMLTextAreaElement>()
 
   const { isTyping, typing } = useTypingStatus()
-  const { updateRecord, resolvedCharList, resetRecord } = useRecord()
+  const { updateRecord, resolvedCharList, resetRecord, wordsPerMinute } =
+    useRecord()
 
   const [typedValue, setTypedValue] = useState<string>("")
 
@@ -103,9 +104,14 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
 
       <button
         type='button'
+        disabled={!typedValue}
         className={clsx(
           "clickable absolute right-0 mt-8 block rounded-full hover:-rotate-[210deg] md:mt-4",
-          isTyping ? "opacity-100" : "opacity-50"
+          wordsPerMinute
+            ? isTyping
+              ? "opacity-100"
+              : "opacity-50"
+            : "opacity-0"
         )}
         onClick={reset}
       >
