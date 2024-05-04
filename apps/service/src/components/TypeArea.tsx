@@ -99,7 +99,11 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         onChange={(event) => {
           const value = event.currentTarget.value
 
-          if (isReadyToComplete || value.length > text.length) {
+          if (
+            isReadyToComplete ||
+            value.length > text.length ||
+            (!isReadyToComplete && value.includes("\n"))
+          ) {
             return
           }
 
