@@ -8,6 +8,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.2.2",
     "clsx": "^2.1.1",
     "hangul-js": "^0.2.6",
     "next": "^14.2.3",
