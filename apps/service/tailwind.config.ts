@@ -22,7 +22,7 @@ const config: Config = {
       },
       transitionProperty: {
         clickable:
-          "background-color, border-color, color, fill, stroke, transform, opacity"
+          "background-color, border-color, color, fill, stroke, transform, opacity, scale"
       }
     },
     fontFamily: {

@@ -124,15 +124,16 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           disabled={!typedValue}
           className={clsx(
             "clickable rounded-full hover:-rotate-[210deg]",
-            wordsPerMinute
-              ? isTyping
-                ? "opacity-20"
-                : "opacity-100"
-              : "opacity-0"
+            !wordsPerMinute && "scale-0 opacity-0"
           )}
           onClick={reset}
         >
-          <RetryIcon className='h-4 w-4 md:h-6 md:w-6' />
+          <RetryIcon
+            className={clsx(
+              "h-4 w-4 md:h-6 md:w-6",
+              isTyping ? "opacity-20" : "opacity-100"
+            )}
+          />
           <span className='sr-only'>다시 시작하기</span>
         </button>
 
