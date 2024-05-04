@@ -69,7 +69,7 @@ export const OptionsSelector = () => {
           updateOptions({ showRecord: event.target.checked })
         }}
       />
-      <NumbersIcon className='h-6 w-6' />
+      <NumbersIcon className='h-5 w-5 md:h-6 md:w-6' />
       <span className='sr-only'>기록 보기</span>
     </label>
   )
