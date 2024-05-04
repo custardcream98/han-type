@@ -45,7 +45,7 @@ export const Result = ({ onRetry }: { onRetry: () => void }) => {
   return (
     <div
       className={clsx(
-        "fixed bottom-0 left-0 right-0 top-0 flex content-center items-center px-8 transition-all duration-700",
+        "fixed bottom-0 left-0 right-0 top-16 flex content-center items-center px-8 transition-all duration-700",
         debouncedMount ? "opacity-100" : "opacity-0"
       )}
       {...(isRetryClicked && {
@@ -65,7 +65,7 @@ export const Result = ({ onRetry }: { onRetry: () => void }) => {
         </div>
 
         <ResetButton
-          className='ml-auto block'
+          className='ml-auto mt-4 block md:mt-8'
           show={showRetryButton}
           onReset={handleRetry}
         />
