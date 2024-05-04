@@ -3,9 +3,26 @@
 import { useTypingStatus } from "./TypingStatusProvider"
 
 import clsx from "clsx"
+import { useEffect } from "react"
 
 export const Title = () => {
-  const { isTyping } = useTypingStatus()
+  const { isTyping, forceTypeEnd, typing } = useTypingStatus()
+
+  useEffect(() => {
+    const handleTouch = () => {
+      if (isTyping) {
+        forceTypeEnd()
+      } else {
+        typing()
+      }
+    }
+
+    window.addEventListener("touchstart", handleTouch)
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouch)
+    }
+  }, [forceTypeEnd, typing, isTyping])
 
   return (
     <h1
