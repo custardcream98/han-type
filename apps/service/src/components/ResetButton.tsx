@@ -44,7 +44,7 @@ export const ResetButton = ({
       type='button'
       disabled={disabled || !show}
       className={clsx(
-        "clickable font-code md:text-bases text-sm",
+        "clickable font-code text-sm md:text-base",
         className,
         (!show || isEscTyped) && "scale-0 opacity-0"
       )}
