@@ -35,7 +35,7 @@ export const TypeSlots = ({
         transform: `translateY(calc(${focusedIndex - index} * -100vh))`
       }}
     >
-      <div className='mx-auto max-w-4xl'>
+      <div className='mx-auto w-full max-w-4xl'>
         <RecordProvider target={quote}>
           <Record target={quote} />
           <TypeArea
