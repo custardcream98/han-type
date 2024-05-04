@@ -1,61 +1,57 @@
 import { RetryIcon } from "@/assets/images/RetryIcon"
 import clsx from "clsx"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 export const ResetButton = ({
   show,
   className,
   disabled = false,
-  dimIcon = false,
   onReset
 }: {
   show: boolean
   className?: string
   disabled?: boolean
-  dimIcon?: boolean
   onReset: () => void
 }) => {
   const [isEscTyped, setIsEscTyped] = useState(false)
 
-  useEffect(() => {
-    if (!show || disabled) return
+  const reset = useCallback(() => {
+    setIsEscTyped(true)
+    onReset()
 
-    let timer: number
+    window.setTimeout(() => {
+      setIsEscTyped(false)
+    }, 300)
+  }, [onReset])
+
+  useEffect(() => {
+    if (disabled) return
 
     const handleReset = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsEscTyped(true)
-        timer = window.setTimeout(() => {
-          onReset()
-        }, 300)
+        reset()
       }
     }
 
     window.addEventListener("keydown", handleReset)
 
     return () => {
-      clearTimeout(timer)
       window.removeEventListener("keydown", handleReset)
     }
-  }, [disabled, onReset, show])
+  }, [disabled, reset])
 
   return (
     <button
       type='button'
-      disabled={disabled || !show}
+      disabled={disabled}
       className={clsx(
         "clickable font-code text-sm md:text-base",
         className,
         (!show || isEscTyped) && "scale-0 opacity-0"
       )}
-      onClick={onReset}
+      onClick={reset}
     >
-      <span
-        className={clsx(
-          "flex items-center gap-2 transition-opacity",
-          dimIcon ? "opacity-20" : "opacity-100"
-        )}
-      >
+      <span className='flex items-center gap-2 transition-opacity'>
         <RetryIcon className='h-3 w-3' />
         <span>esc</span>
         <span className='sr-only'>다시 시작하기</span>

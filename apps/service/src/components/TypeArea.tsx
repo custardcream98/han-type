@@ -45,7 +45,6 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
 
   const reset = useCallback(() => {
     setTypedValue("")
-    updateRecord("")
     resetRecord()
     setIsReadyToComplete(false)
 
@@ -54,7 +53,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
     if (textareaElement) {
       textareaElement.focus()
     }
-  }, [resetRecord, updateRecord])
+  }, [resetRecord])
 
   const complete = useCallback(() => {
     if (!isReadyToComplete) {
@@ -149,9 +148,9 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
 
       <div className='absolute right-0 mt-8 flex items-center'>
         <ResetButton
-          show={!!wordsPerMinute}
+          className='disabled:cursor-not-allowed'
+          show={!isTyping || isReadyToComplete}
           disabled={!typedValue}
-          dimIcon={isTyping}
           onReset={reset}
         />
 
