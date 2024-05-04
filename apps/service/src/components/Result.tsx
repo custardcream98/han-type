@@ -1,11 +1,11 @@
+import { ResetButton } from "./ResetButton"
 import { useTotalRecord } from "./TotalRecordProvider"
 import { useTypingStatus } from "./TypingStatusProvider"
 
-import { RetryIcon } from "@/assets/images/RetryIcon"
 import { useDebouncedValue } from "@/hooks/useDebouncedValue"
 import { useIsMounted } from "@/hooks/useIsMounted"
 import clsx from "clsx"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 export const Result = ({ onRetry }: { onRetry: () => void }) => {
   const isMounted = useIsMounted()
@@ -28,24 +28,11 @@ export const Result = ({ onRetry }: { onRetry: () => void }) => {
     }, 700)
   }, [onRetry, resetRecord, typing])
 
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleRetry()
-      }
-    }
-
-    window.addEventListener("keydown", handleEscape)
-
-    return () => {
-      window.removeEventListener("keydown", handleEscape)
-    }
-  }, [handleRetry])
-
   const result = useMemo(
     () => ({
       accuracy: (
-        accuracies.reduce((acc, curr) => acc + curr, 0) / accuracies.length
+        (accuracies.reduce((acc, curr) => acc + curr, 0) / accuracies.length) *
+        100
       ).toFixed(2),
       wordsPerMinute: (
         wordsPerMinutes.reduce((acc, curr) => acc + curr, 0) /
@@ -76,17 +63,12 @@ export const Result = ({ onRetry }: { onRetry: () => void }) => {
           <strong>분당 단어 수</strong>
           <span className='md:ml-auto'>{result.wordsPerMinute} 개 / 분</span>
         </div>
-        <button
-          type='button'
-          className={clsx(
-            "clickable ml-auto block rounded-full hover:-rotate-[210deg]",
-            !showRetryButton && "scale-0 opacity-0"
-          )}
-          onClick={handleRetry}
-        >
-          <RetryIcon className='h-4 w-4 md:h-6 md:w-6' />
-          <span className='sr-only'>다시 시작하기</span>
-        </button>
+
+        <ResetButton
+          className='ml-auto block'
+          show={showRetryButton}
+          onReset={handleRetry}
+        />
       </div>
     </div>
   )

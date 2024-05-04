@@ -1,9 +1,9 @@
 import { useRecord } from "./Record"
+import { ResetButton } from "./ResetButton"
 import { useToast } from "./Toast"
 import { useTotalRecord } from "./TotalRecordProvider"
 import { useTypingStatus } from "./TypingStatusProvider"
 
-import { RetryIcon } from "@/assets/images/RetryIcon"
 import clsx from "clsx"
 import React, { useRef, useState } from "react"
 
@@ -105,8 +105,6 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
               wordsPerMinute
             })
             onComplete?.()
-          } else if (event.key === "Escape" && typedValue) {
-            reset()
           }
         }}
         value={typedValue}
@@ -129,27 +127,16 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
       </p>
 
       <div className='absolute right-0 mt-8 flex items-center gap-4'>
-        <button
-          type='button'
+        <ResetButton
+          show={!!wordsPerMinute}
           disabled={!typedValue}
-          className={clsx(
-            "clickable rounded-full hover:-rotate-[210deg]",
-            !wordsPerMinute && "scale-0 opacity-0"
-          )}
-          onClick={reset}
-        >
-          <RetryIcon
-            className={clsx(
-              "h-4 w-4 md:h-6 md:w-6",
-              isTyping ? "opacity-20" : "opacity-100"
-            )}
-          />
-          <span className='sr-only'>다시 시작하기</span>
-        </button>
+          dimIcon={isTyping}
+          onReset={reset}
+        />
 
         <div
           className={clsx(
-            "overflow-hidden transition-all duration-500 md:text-base",
+            "transition-all duration-500 md:text-base",
             isReadyToComplete
               ? "max-w-28 opacity-100 md:max-w-24"
               : "max-w-0 opacity-0"
@@ -158,7 +145,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           <button
             type='button'
             disabled={!isReadyToComplete}
-            className='font-code w-max rounded-md bg-zinc-800 px-2 py-1 text-sm tracking-wide md:text-base'
+            className='font-code clickable w-max text-sm tracking-wide md:text-base'
           >
             ⏎ {isMacOS ? "return" : "enter"}
           </button>
