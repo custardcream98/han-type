@@ -7,6 +7,7 @@
   <p align="center">
 
 **⌨️ 한국어 타자 연습 ⌨️**
+
 **[https://hantype.shiwoo.dev/](https://hantype.shiwoo.dev/)**
 
   </p>
