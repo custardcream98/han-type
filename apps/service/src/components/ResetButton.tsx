@@ -52,12 +52,12 @@ export const ResetButton = ({
     >
       <span
         className={clsx(
-          "flex items-center gap-1 leading-[1] transition-opacity",
+          "flex items-center gap-2 leading-[1rem] transition-opacity",
           dimIcon ? "opacity-20" : "opacity-100"
         )}
       >
-        ESC
-        <RetryIcon className='h-4 w-4 md:h-6 md:w-6' />
+        <RetryIcon className='h-4 w-4' />
+        <span>ESC</span>
         <span className='sr-only'>다시 시작하기</span>
       </span>
     </button>
