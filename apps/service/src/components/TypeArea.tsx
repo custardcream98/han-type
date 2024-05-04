@@ -5,6 +5,7 @@ import { useTotalRecord } from "./TotalRecordProvider"
 import { useTypingStatus } from "./TypingStatusProvider"
 
 import clsx from "clsx"
+import Hangul from "hangul-js"
 import React, { useCallback, useRef, useState } from "react"
 
 const ENGLISH_REGEX = /[a-zA-Z]/
@@ -97,11 +98,11 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         className='absolute inset-0 resize-none overflow-hidden bg-transparent text-transparent caret-slate-300 selection:bg-orange-100 selection:bg-opacity-30 focus:border-none focus:outline-none'
         disabled={disabled}
         onChange={(event) => {
-          if (isReadyToComplete) {
+          const value = event.currentTarget.value
+
+          if (isReadyToComplete || value.length > text.length) {
             return
           }
-
-          const value = event.currentTarget.value
 
           typing()
 
@@ -113,7 +114,12 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           setTypedValue(value)
           updateRecord(value)
 
-          if (value.length === text.length) {
+          if (
+            value.length === text.length &&
+            (value[value.length - 1] === text[text.length - 1] ||
+              (Hangul.isComplete(value[value.length - 1]) &&
+                Hangul.disassemble(value[value.length - 1]).length === 3))
+          ) {
             setIsReadyToComplete(true)
           }
         }}
