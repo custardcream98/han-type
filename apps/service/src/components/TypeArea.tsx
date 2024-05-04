@@ -5,7 +5,7 @@ import { useTotalRecord } from "./TotalRecordProvider"
 import { useTypingStatus } from "./TypingStatusProvider"
 
 import clsx from "clsx"
-import React, { useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 
 const ENGLISH_REGEX = /[a-zA-Z]/
 
@@ -42,7 +42,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
 
   const { updateTotalRecord } = useTotalRecord()
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setTypedValue("")
     updateRecord("")
     resetRecord()
@@ -53,7 +53,26 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
     if (textareaElement) {
       textareaElement.focus()
     }
-  }
+  }, [resetRecord, updateRecord])
+
+  const complete = useCallback(() => {
+    if (!isReadyToComplete) {
+      return
+    }
+
+    updateTotalRecord({
+      accuracy,
+      wordsPerMinute
+    })
+
+    onComplete?.()
+  }, [
+    isReadyToComplete,
+    accuracy,
+    onComplete,
+    updateTotalRecord,
+    wordsPerMinute
+  ])
 
   const { errorToast } = useToast()
 
@@ -99,12 +118,8 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           }
         }}
         onKeyDown={(event) => {
-          if (event.key === "Enter" && isReadyToComplete) {
-            updateTotalRecord({
-              accuracy,
-              wordsPerMinute
-            })
-            onComplete?.()
+          if (event.key === "Enter") {
+            complete()
           }
         }}
         value={typedValue}
@@ -126,7 +141,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         ))}
       </p>
 
-      <div className='absolute right-0 mt-8 flex items-center gap-4'>
+      <div className='absolute right-0 mt-8 flex items-center'>
         <ResetButton
           show={!!wordsPerMinute}
           disabled={!typedValue}
@@ -138,7 +153,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
           className={clsx(
             "transition-all duration-500 md:text-base",
             isReadyToComplete
-              ? "max-w-28 opacity-100 md:max-w-24"
+              ? "ml-4 max-w-28 opacity-100 md:max-w-24"
               : "max-w-0 opacity-0"
           )}
         >
@@ -146,6 +161,7 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
             type='button'
             disabled={!isReadyToComplete}
             className='font-code clickable w-max text-sm tracking-wide md:text-base'
+            onClick={complete}
           >
             ⏎ {isMacOS ? "return" : "enter"}
           </button>
