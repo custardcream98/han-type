@@ -5,11 +5,14 @@
   <br />
 
   <p align="center">
-    ⌨️ 한국어 타자 연습 ⌨️
+
+**⌨️ 한국어 타자 연습 ⌨️**
+**[https://hantype.shiwoo.dev/](https://hantype.shiwoo.dev/)**
+
   </p>
 </div>
 
 <br />
 <br />
 
-![showcase](./showcase.png)
+![showcase](showcase.png)
