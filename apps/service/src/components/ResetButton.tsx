@@ -52,7 +52,7 @@ export const ResetButton = ({
     >
       <span
         className={clsx(
-          "flex items-center gap-2 leading-[1rem] transition-opacity",
+          "flex items-center gap-2 transition-opacity",
           dimIcon ? "opacity-20" : "opacity-100"
         )}
       >
