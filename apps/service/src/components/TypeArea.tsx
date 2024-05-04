@@ -1,7 +1,6 @@
-"use client"
-
 import { useRecord } from "./Record"
 import { useToast } from "./Toast"
+import { useTotalRecord } from "./TotalRecordProvider"
 import { useTypingStatus } from "./TypingStatusProvider"
 
 import { RetryIcon } from "@/assets/images/RetryIcon"
@@ -29,12 +28,19 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
   const innerRef = useRef<HTMLTextAreaElement>()
 
   const { isTyping, typing } = useTypingStatus()
-  const { updateRecord, resolvedCharList, resetRecord, wordsPerMinute } =
-    useRecord()
+  const {
+    updateRecord,
+    resolvedCharList,
+    resetRecord,
+    wordsPerMinute,
+    accuracy
+  } = useRecord()
 
   const [typedValue, setTypedValue] = useState<string>("")
 
   const [isReadyToComplete, setIsReadyToComplete] = useState(false)
+
+  const { updateTotalRecord } = useTotalRecord()
 
   const reset = () => {
     setTypedValue("")
@@ -94,6 +100,10 @@ export const TypeArea = React.forwardRef(function TypeAreaForward(
         }}
         onKeyDown={(event) => {
           if (event.key === "Enter" && isReadyToComplete) {
+            updateTotalRecord({
+              accuracy,
+              wordsPerMinute
+            })
             onComplete?.()
           } else if (event.key === "Escape" && typedValue) {
             reset()

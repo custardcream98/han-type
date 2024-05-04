@@ -5,6 +5,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react"
 const TypingStatusContext = React.createContext<{
   isTyping: boolean
   typing: () => void
+  forceTypeEnd: () => void
 } | null>(null)
 
 export const TypingStatusProvider = ({
@@ -26,6 +27,9 @@ export const TypingStatusProvider = ({
 
   const value = useMemo(
     () => ({
+      forceTypeEnd: () => {
+        setIsTyping(false)
+      },
       isTyping,
       typing: () => {
         setIsTyping(true)

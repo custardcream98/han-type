@@ -1,21 +1,23 @@
-"use client"
-
 import { Record, RecordProvider } from "./Record"
 import { TypeArea } from "./TypeArea"
+import { useTypingStatus } from "./TypingStatusProvider"
 
 import { useEffect, useRef, useState } from "react"
 
 export const TypeSlots = ({
   quotes,
-  isMacOS
+  isMacOS,
+  onComplete
 }: {
   quotes: string[]
   isMacOS: boolean
+  onComplete: () => void
 }) => {
   const typeAreaRefList = useRef<(HTMLTextAreaElement | null)[]>(
     new Array(quotes.length).fill(null)
   )
   const [focusedIndex, setFocusedIndex] = useState(0)
+  const { forceTypeEnd } = useTypingStatus()
 
   const frameRef = useRef<number | null>(null)
   useEffect(
@@ -64,6 +66,13 @@ export const TypeSlots = ({
 
                   frameRef.current = requestAnimationFrame(focus)
                 }, 150)
+              } else {
+                setFocusedIndex((prev) => prev + 1)
+
+                setTimeout(() => {
+                  forceTypeEnd()
+                  onComplete()
+                }, 600)
               }
             }}
             isMacOS={isMacOS}
