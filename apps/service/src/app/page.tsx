@@ -24,7 +24,7 @@ export default function Home() {
     <TotalRecordProvider>
       <TypingStatusProvider>
         <OptionsProvider>
-          <header className='relative z-10 mt-[15vh] w-full px-8 sm:mt-[25vh]'>
+          <header className='relative z-10 mt-[10vh] w-full px-8 sm:mt-[25vh]'>
             <div className='mx-auto max-w-4xl'>
               <Title />
             </div>

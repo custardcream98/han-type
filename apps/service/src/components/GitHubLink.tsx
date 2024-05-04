@@ -14,7 +14,7 @@ export const GitHubLink = () => {
       rel='noopener noreferrer'
       href='https://github.com/custardcream98/han-type'
       className={clsx(
-        "absolute bottom-4 right-4 flex items-center gap-1 text-sm transition-opacity duration-700 md:text-lg",
+        "absolute bottom-4 left-4 flex items-center gap-1 text-sm transition-opacity duration-700 md:left-auto md:right-4 md:text-lg",
         !isTyping ? "opacity-10" : "opacity-0"
       )}
     >
