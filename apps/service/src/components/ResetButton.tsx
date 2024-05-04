@@ -56,8 +56,8 @@ export const ResetButton = ({
           dimIcon ? "opacity-20" : "opacity-100"
         )}
       >
-        <RetryIcon className='h-4 w-4' />
-        <span>ESC</span>
+        <RetryIcon className='h-3 w-3' />
+        <span>esc</span>
         <span className='sr-only'>다시 시작하기</span>
       </span>
     </button>
