@@ -5,6 +5,7 @@ import { useTypingStatus } from "./TypingStatusProvider"
 import { useDebouncedValue } from "@/hooks/useDebouncedValue"
 import { useIsMounted } from "@/hooks/useIsMounted"
 import clsx from "clsx"
+import { useRouter } from "next/navigation"
 import { useCallback, useMemo, useState } from "react"
 
 export const Result = ({ onRetry }: { onRetry: () => void }) => {
@@ -18,15 +19,18 @@ export const Result = ({ onRetry }: { onRetry: () => void }) => {
 
   const { typing } = useTypingStatus()
 
+  const router = useRouter()
+
   const handleRetry = useCallback(() => {
     setIsRetryClicked(true)
+    router.refresh()
     typing()
 
     setTimeout(() => {
       resetRecord()
       onRetry()
     }, 700)
-  }, [onRetry, resetRecord, typing])
+  }, [onRetry, resetRecord, typing, router])
 
   const result = useMemo(
     () => ({

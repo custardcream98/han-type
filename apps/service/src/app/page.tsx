@@ -7,20 +7,28 @@ import { TypingStatusProvider } from "@/components/TypingStatusProvider"
 import { isMacOS } from "@/utils/userAgent.server"
 import { getRandomWords } from "@/utils/words"
 
-const ROUNDS = 5
-const WORDS_COUNT = 10
-
-const generateShortTexts = () => {
+const generateShortTexts = ({
+  roundCount,
+  wordCount
+}: {
+  roundCount: number
+  wordCount: number
+}) => {
   const shortTexts = []
 
-  for (let i = 0; i < ROUNDS; i++) {
-    shortTexts.push(getRandomWords(WORDS_COUNT).join(" "))
+  for (let i = 0; i < roundCount; i++) {
+    shortTexts.push(getRandomWords(wordCount).join(" "))
   }
 
   return shortTexts
 }
 
 export default function Home() {
+  const quotes = generateShortTexts({
+    roundCount: 5,
+    wordCount: 10
+  })
+
   return (
     <TotalRecordProvider>
       <TypingStatusProvider>
@@ -33,7 +41,7 @@ export default function Home() {
           <div className='fixed right-0 top-0 z-10 p-4'>
             <OptionsSelector />
           </div>
-          <Journey isMacOS={isMacOS()} quotes={generateShortTexts()} />
+          <Journey isMacOS={isMacOS()} quotes={quotes} />
         </OptionsProvider>
         <GitHubLink />
       </TypingStatusProvider>
