@@ -2,6 +2,8 @@ import { Record, RecordProvider } from "./Record"
 import { TypeArea } from "./TypeArea"
 import { useTypingStatus } from "./TypingStatusProvider"
 
+import { Progress } from "@/components/Progress"
+import clsx from "clsx"
 import { useEffect, useRef, useState } from "react"
 
 export const TypeSlots = ({
@@ -39,7 +41,10 @@ export const TypeSlots = ({
     >
       <div className='mx-auto w-full max-w-4xl'>
         <RecordProvider target={quote}>
-          <Record target={quote} />
+          <div className={clsx("flex items-center justify-between")}>
+            <Record target={quote} />
+            <Progress current={index + 1} total={quotes.length} />
+          </div>
           <TypeArea
             ref={(element) => {
               typeAreaRefList.current[index] = element
