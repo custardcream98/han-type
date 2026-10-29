@@ -23,7 +23,7 @@ const generateShortTexts = ({
   return shortTexts
 }
 
-export default function Home() {
+export default async function Home() {
   const quotes = generateShortTexts({
     roundCount: 5,
     wordCount: 10
@@ -41,7 +41,7 @@ export default function Home() {
           <div className='fixed right-0 top-0 z-10 p-4'>
             <OptionsSelector />
           </div>
-          <Journey isMacOS={isMacOS()} quotes={quotes} />
+          <Journey isMacOS={await isMacOS()} quotes={quotes} />
         </OptionsProvider>
         <GitHubLink />
       </TypingStatusProvider>
